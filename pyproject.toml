@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "fin-tools"
+version = "0.1.0"
+description = ""
+authors = ["NathanDBrowne <nathan.browne1@gmail.com>"]
+readme = "README.md"
+packages = [{include = "fin_tools"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+polars = "^0.17.11"
+ccxt = "^3.0.85"
+
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.3.0"
+isort = "^5.12.0"
+flake8 = "^6.0.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
