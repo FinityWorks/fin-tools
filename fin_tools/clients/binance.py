@@ -1,4 +1,5 @@
 import ccxt
+import numpy as np
 import polars as pl
 
 
@@ -40,9 +41,7 @@ class Binance(ccxt.binance):
             .with_columns(
                 [
                     pl.col("tick").cumsum().alias("tick"),
-                    pl.col("delta_p")
-                    .apply(lambda x: (abs(x) / x) if x != 0 else 0)
-                    .alias("tick_dir"),
+                    pl.col("delta_p").apply(np.sign).alias("tick_dir"),
                 ]
             )
         )
