@@ -1,4 +1,4 @@
-import ccxt
+import ccxt.async_support as ccxt
 import numpy as np
 import polars as pl
 
@@ -8,7 +8,7 @@ class Binance(ccxt.binance):
         super().__init__()
         self.set_sandbox_mode(True)
 
-    def pull_data(self, ticker="BTC/USDT") -> pl.DataFrame:
+    async def pull_data(self, ticker="BTC/USDT") -> pl.DataFrame:
         """pull trades, reformat, sort dates, create delta_p and tick dir"""
         abbrs = {
             "M": "info_market",  # true if market, false if limit
@@ -21,7 +21,7 @@ class Binance(ccxt.binance):
             "q": "info_quantity",
         }
 
-        tdf = self.fetch_trades(ticker)
+        tdf = await self.fetch_trades(ticker)
 
         tdf = (
             pl.DataFrame([{**x.pop("info"), **x} for x in tdf])
