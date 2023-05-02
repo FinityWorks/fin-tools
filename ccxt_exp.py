@@ -101,6 +101,10 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
-    # vals = [0, -1, 1, -1, -1, -1, -1, -1, 1, -1]
-    # print(cum_boundary(vals, 4))
+    from fin_tools.aggregations import BarMaker
+    from fin_tools.clients import Binance
+    from fin_tools.formatting import df_to_dict
+
+    df = Binance().pull_data()
+    df = BarMaker.create_imbalance_bars(df, "tick_dir", 10)
+    print(df_to_dict(df))
