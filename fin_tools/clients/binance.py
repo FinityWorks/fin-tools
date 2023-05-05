@@ -26,21 +26,19 @@ class Binance(ccxt.binance):
         tdf = (
             pl.DataFrame([{**x.pop("info"), **x} for x in tdf])
             .rename(abbrs)
-            .select(["symbol", "datetime", "side", "price", "amount", "cost"])
+            .select(["id", "symbol", "datetime", "side", "price", "amount", "cost"])
         )
 
         tdf = (
             tdf.sort("datetime")
             .with_columns(
                 [
-                    pl.lit(1).alias("tick"),
                     pl.col("price").diff().alias("delta_p"),
                 ]
             )
             .drop_nulls()
             .with_columns(
                 [
-                    pl.col("tick").cumsum().alias("tick"),
                     pl.col("delta_p").apply(np.sign).alias("tick_dir"),
                 ]
             )
