@@ -75,6 +75,12 @@ class BarMaker:
 
     def update_bars(self, new_ticks):
         ticks = pl.concat([self.remaining_ticks, new_ticks])
+
+        if len(self.remaining_ticks) > 0:
+            min_val = self.remaining_ticks["id"].min()
+            ticks = ticks.filter(pl.col("id") > min_val)
+
+        ticks = ticks.groupby("id").first()
         new_bar_df, self.remaining_ticks = self.create_imbalance_bars(ticks)
 
         if len(self.bars) > 0:
