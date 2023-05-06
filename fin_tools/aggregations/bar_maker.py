@@ -75,7 +75,7 @@ class BarMaker:
 
     def update_bars(self, new_ticks):
         ticks = pl.concat([self.remaining_ticks, new_ticks])
-        new_bar_df, self.remaining_ticks = maker.create_imbalance_bars(ticks)
+        new_bar_df, self.remaining_ticks = self.create_imbalance_bars(ticks)
 
         if len(self.bars) > 0:
             self.bars = pl.concat([self.bars.slice(0, -1), new_bar_df])
